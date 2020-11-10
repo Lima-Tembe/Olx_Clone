@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:xlo_mobx/screen/base/base_screen.dart';
+import 'package:xlo_mobx/store/page_store.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeParse();
+  setupLocators();
   runApp(MyApp());
+}
+
+void setupLocators() {
+  GetIt.I.registerSingleton(PageStore());
 }
 
 Future<void> initializeParse() async {
@@ -19,7 +26,6 @@ Future<void> initializeParse() async {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
