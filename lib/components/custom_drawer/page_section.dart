@@ -13,35 +13,35 @@ class PageSection extends StatelessWidget {
         PageTile(
             label: "Anúncios",
             iconData: Icons.menu,
-            highlighted: true,
+            highlighted: pageStore.page == 0,
             onTap: () {
               pageStore.setPage(0);
             }),
         PageTile(
             label: "Inserir Anúncios",
             iconData: Icons.add_circle_outline,
-            highlighted: false,
+            highlighted: pageStore.page == 1,
             onTap: () {
               pageStore.setPage(1);
             }),
         PageTile(
             label: "Chat",
             iconData: Icons.chat_bubble_outline,
-            highlighted: false,
+            highlighted: pageStore.page == 2,
             onTap: () {
               pageStore.setPage(2);
             }),
         PageTile(
             label: "Favoritos",
             iconData: Icons.favorite_border,
-            highlighted: false,
+            highlighted: pageStore.page == 3,
             onTap: () {
               pageStore.setPage(3);
             }),
         PageTile(
             label: "Minha Conta",
             iconData: Icons.person_outline,
-            highlighted: false,
+            highlighted: pageStore.page == 4,
             onTap: () {
               pageStore.setPage(4);
             })

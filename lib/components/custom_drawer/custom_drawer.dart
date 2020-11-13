@@ -5,14 +5,13 @@ import 'package:xlo_mobx/components/custom_drawer/page_section.dart';
 class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.65,
-      child: Drawer(
-        child: ListView(
-          children: <Widget>[
-            CustomDrawerHeader(),
-            PageSection()
-          ],
+    return SafeArea(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.65,
+        child: Drawer(
+          child: ListView(
+            children: <Widget>[CustomDrawerHeader(), PageSection()],
+          ),
         ),
       ),
     );
