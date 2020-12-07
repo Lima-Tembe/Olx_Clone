@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:xlo_mobx/components/button/button_form.dart';
 import 'package:xlo_mobx/components/login/field_tile.dart';
 import 'package:xlo_mobx/screen/login/login_screen.dart';
+import 'package:xlo_mobx/store/signup_store.dart';
 
 class SignUpScreen extends StatelessWidget {
+  final SignupStore signupStore = SignupStore();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,13 +33,16 @@ class SignUpScreen extends StatelessWidget {
                     title: "Nome",
                     subtitle: "Como aparecerá em seus anúncios",
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      isDense: true,
-                    ),
-                    keyboardType: TextInputType.text,
-                  ),
+                  Observer(builder: (_) {
+                    return TextField(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                          errorText: signupStore.nameError),
+                      keyboardType: TextInputType.text,
+                      onChanged: signupStore.setName,
+                    );
+                  }),
                   const SizedBox(
                     height: 16,
                   ),
@@ -44,12 +51,17 @@ class SignUpScreen extends StatelessWidget {
                     subtitle:
                         "Enviaremos um email de confirmação pra este email",
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(), isDense: true),
-                    keyboardType: TextInputType.emailAddress,
-                    autocorrect: false,
-                  ),
+                  Observer(builder: (_) {
+                    return TextField(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                          errorText: signupStore.emailError),
+                      keyboardType: TextInputType.emailAddress,
+                      autocorrect: false,
+                      onChanged: signupStore.setEmail,
+                    );
+                  }),
                   const SizedBox(
                     height: 16,
                   ),
@@ -57,14 +69,20 @@ class SignUpScreen extends StatelessWidget {
                     title: "Celular",
                     subtitle: "Digite seu número",
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(), isDense: true),
-                    keyboardType: TextInputType.phone,
-                    inputFormatters: [
-                      WhitelistingTextInputFormatter.digitsOnly,
-                    ],
-                  ),
+                  Observer(builder: (_) {
+                    return TextField(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                          prefix: Text("+258 "),
+                          errorText: signupStore.phoneError),
+                      keyboardType: TextInputType.phone,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
+                      onChanged: signupStore.setPhone,
+                    );
+                  }),
                   const SizedBox(
                     height: 16,
                   ),
@@ -72,11 +90,16 @@ class SignUpScreen extends StatelessWidget {
                     title: "Senha",
                     subtitle: "Use letras, números e caracteres especiais",
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(), isDense: true),
-                    obscureText: true,
-                  ),
+                  Observer(builder: (_) {
+                    return TextField(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                          errorText: signupStore.passError),
+                      obscureText: true,
+                      onChanged: signupStore.setPass,
+                    );
+                  }),
                   const SizedBox(
                     height: 16,
                   ),
@@ -84,15 +107,23 @@ class SignUpScreen extends StatelessWidget {
                     title: "Confirmar Senha",
                     subtitle: "Repita a senha",
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(), isDense: true),
-                    obscureText: true,
-                  ),
-                  ButtonForm(
-                    text: "CADASTRAR",
-                    onPressed: () {},
-                  ),
+                  Observer(builder: (_) {
+                    return TextField(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                          errorText: signupStore.confirmPassError),
+                      obscureText: true,
+                      onChanged: signupStore.setconfirmPass,
+                    );
+                  }),
+                  Observer(builder: (_) {
+                    return ButtonForm(
+                      text: "CADASTRAR",
+                      disabledColor: Colors.blue.withAlpha(130),
+                      onPressed: () {},
+                    );
+                  }),
                   Divider(
                     color: Colors.black,
                   ),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ButtonForm extends StatelessWidget {
-  const ButtonForm({Key key, this.text, this.onPressed}) : super(key: key);
+  const ButtonForm({Key key, this.text, this.onPressed, this.disabledColor}) : super(key: key);
   final String text;
   final VoidCallback onPressed;
+  final Color disabledColor;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +18,7 @@ class ButtonForm extends StatelessWidget {
         child: Text('$text'),
         elevation: 5,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        disabledColor: disabledColor,
       ),
     );
   }
