@@ -121,7 +121,7 @@ class SignUpScreen extends StatelessWidget {
                     return ButtonForm(
                       text: "CADASTRAR",
                       disabledColor: Colors.blue.withAlpha(130),
-                      onPressed: () {},
+                      onPressed: signupStore.signupPressed,
                     );
                   }),
                   Divider(
