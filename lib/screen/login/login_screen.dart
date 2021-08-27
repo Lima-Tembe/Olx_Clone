@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:xlo_mobx/components/button/button_form.dart';
 import 'package:xlo_mobx/screen/sign_up/sign_up_screen.dart';
+import 'package:xlo_mobx/store/login_store.dart';
 
 class LoginScreen extends StatelessWidget {
+  final LoginStore loginStore = LoginStore();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,11 +37,17 @@ class LoginScreen extends StatelessWidget {
                           fontWeight: FontWeight.w700),
                     ),
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(), isDense: true),
-                    keyboardType: TextInputType.emailAddress,
-                  ),
+                  Observer(builder: (_) {
+                    return TextField(
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        isDense: true,
+                        errorText: loginStore.emailError,
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      onChanged: loginStore.setEmail,
+                    );
+                  }),
                   const SizedBox(
                     height: 16,
                   ),
@@ -51,29 +61,40 @@ class LoginScreen extends StatelessWidget {
                           fontWeight: FontWeight.w700),
                     ),
                   ),
-                  TextField(
-                    decoration: InputDecoration(
-                        border: const OutlineInputBorder(), isDense: true),
-                    obscureText: true,
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 3, top: 4),
-                      child: Text(
-                        "Esqueci minha senha!",
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
+                  Observer(builder: (_) {
+                    return TextField(
+                      decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          isDense: true,
+                          errorText: loginStore.passError),
+                      obscureText: true,
+                      onChanged: loginStore.setPass,
+                    );
+                  }),
+                  Observer(builder: (_) {
+                    return GestureDetector(
+                      onTap: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 3, top: 4),
+                        child: Text(
+                          "Esqueci minha senha!",
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
                             decoration: TextDecoration.underline,
                             color: Colors.blueAccent,
-                            fontSize: 14),
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  ButtonForm(
-                    text: "ENTRAR",
-                    onPressed: () {},
-                  ),
+                    );
+                  }),
+                  Observer(builder: (_) {
+                    return ButtonForm(
+                      text: "ENTRAR",
+                      onPressed: loginStore.loginPressed,
+                      disabledColor: Colors.blue.withAlpha(120),
+                    );
+                  }),
                   Divider(
                     color: Colors.black,
                   ),

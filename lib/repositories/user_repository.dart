@@ -1,14 +1,32 @@
 import 'package:parse_server_sdk/parse_server_sdk.dart';
 import 'package:xlo_mobx/models/user.dart';
+import 'package:xlo_mobx/repositories/parse_errors.dart';
 import 'package:xlo_mobx/repositories/table_keys.dart';
 
 class UserRepository {
-  Future<void> signup(User user) async {
+  Future<User> signup(User user) async {
     final parseUser = ParseUser(user.email, user.password, user.email);
     parseUser.set<String>(KeyUserName, user.name);
     parseUser.set<String>(KeyUserPhone, user.phone);
     parseUser.set(KeyUserType, user.type.index);
 
-    await parseUser.signUp();
+    final response = await parseUser.signUp();
+
+    if (response.success) {
+      return mapParseToUser(response.result);
+    } else {
+      return Future.error(ParseErrors.getDescription(response.error.code));
+    }
+  }
+
+  User mapParseToUser(ParseUser parseUser) {
+    return User(
+      id: parseUser.objectId,
+      name: parseUser.get(KeyUserName),
+      email: parseUser.get(KeyUserEmail),
+      phone: parseUser.get(KeyUserPhone),
+      type: UserType.values[parseUser.get(KeyUserType)],
+      createdAt: parseUser.get(KeyUserCreatedAt),
+    );
   }
 }

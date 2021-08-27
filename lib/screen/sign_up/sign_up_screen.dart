@@ -8,10 +8,11 @@ import 'package:xlo_mobx/store/signup_store.dart';
 
 class SignUpScreen extends StatelessWidget {
   final SignupStore signupStore = SignupStore();
-
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: const Text("Cadastro"),
         centerTitle: true,
@@ -119,10 +120,9 @@ class SignUpScreen extends StatelessWidget {
                   }),
                   Observer(builder: (_) {
                     return ButtonForm(
-                      text: "CADASTRAR",
-                      disabledColor: Colors.blue.withAlpha(130),
-                      onPressed: signupStore.signupPressed,
-                    );
+                        text: "CADASTRAR",
+                        disabledColor: Colors.blue.withAlpha(130),
+                        onPressed: signupStore.signupPressed);
                   }),
                   Divider(
                     color: Colors.black,
@@ -149,7 +149,8 @@ class SignUpScreen extends StatelessWidget {
                         ),
                       )
                     ],
-                  )
+                  ),
+                  
                 ],
               ),
             ),
