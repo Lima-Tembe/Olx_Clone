@@ -23,6 +23,13 @@ mixin _$LoginStore on _LoginStoreBase, Store {
       (_$passValidComputed ??= Computed<bool>(() => super.passValid,
               name: '_LoginStoreBase.passValid'))
           .value;
+  Computed<Function> _$loginPressedComputed;
+
+  @override
+  Function get loginPressed =>
+      (_$loginPressedComputed ??= Computed<Function>(() => super.loginPressed,
+              name: '_LoginStoreBase.loginPressed'))
+          .value;
 
   final _$emailAtom = Atom(name: '_LoginStoreBase.email');
 
@@ -52,6 +59,28 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     _$passAtom.reportWrite(value, super.pass, () {
       super.pass = value;
     });
+  }
+
+  final _$loadingAtom = Atom(name: '_LoginStoreBase.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  final _$_loginAsyncAction = AsyncAction('_LoginStoreBase._login');
+
+  @override
+  Future<void> _login() {
+    return _$_loginAsyncAction.run(() => super._login());
   }
 
   final _$_LoginStoreBaseActionController =
@@ -84,8 +113,10 @@ mixin _$LoginStore on _LoginStoreBase, Store {
     return '''
 email: ${email},
 pass: ${pass},
+loading: ${loading},
 emailValid: ${emailValid},
-passValid: ${passValid}
+passValid: ${passValid},
+loginPressed: ${loginPressed}
     ''';
   }
 }

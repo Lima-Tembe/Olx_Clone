@@ -39,6 +39,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   Observer(builder: (_) {
                     return TextField(
+                      enabled: !loginStore.loading,
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         isDense: true,
@@ -63,6 +64,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   Observer(builder: (_) {
                     return TextField(
+                      enabled: !loginStore.loading,
                       decoration: InputDecoration(
                           border: const OutlineInputBorder(),
                           isDense: true,
@@ -89,10 +91,26 @@ class LoginScreen extends StatelessWidget {
                     );
                   }),
                   Observer(builder: (_) {
-                    return ButtonForm(
-                      text: "ENTRAR",
-                      onPressed: loginStore.loginPressed,
-                      disabledColor: Colors.blue.withAlpha(120),
+                    return Container(
+                      height: 40,
+                      margin: const EdgeInsets.symmetric(vertical: 16),
+                      child: ElevatedButton(
+                        onPressed: loginStore.loginPressed,
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.blue,
+                          textStyle: TextStyle(color: Colors.white),
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          onSurface: Colors.blue.withAlpha(120),
+                        ),
+                        child: loginStore.loading
+                            ? CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation(Colors.white),
+                              )
+                            : Text('Entrar'),
+                      ),
                     );
                   }),
                   Divider(
