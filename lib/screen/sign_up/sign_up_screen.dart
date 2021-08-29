@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:xlo_mobx/components/button/button_form.dart';
 import 'package:xlo_mobx/components/login/field_tile.dart';
 import 'package:xlo_mobx/screen/login/login_screen.dart';
 import 'package:xlo_mobx/store/signup_store.dart';
@@ -119,10 +118,38 @@ class SignUpScreen extends StatelessWidget {
                     );
                   }),
                   Observer(builder: (_) {
-                    return ButtonForm(
-                        text: "CADASTRAR",
-                        disabledColor: Colors.blue.withAlpha(130),
-                        onPressed: signupStore.signupPressed);
+                    return Container(
+                      height: 40,
+                      margin: const EdgeInsets.symmetric(vertical: 16),
+                      child: ElevatedButton(
+                        onPressed: signupStore.signupPressed,
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.blue,
+                          textStyle: TextStyle(color: Colors.white),
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          onSurface: Colors.blue.withAlpha(120),
+                        ),
+                        child: signupStore.isLoading
+                            ? CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation(Colors.white),
+                              )
+                            : Text('Entrar'),
+                      ),
+                    );
+                  }),
+                  Observer(builder: (_) {
+                    return signupStore.error != null
+                        ? Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              signupStore.error,
+                              style: TextStyle(fontSize: 16, color: Colors.red),
+                            ),
+                          )
+                        : Container();
                   }),
                   Divider(
                     color: Colors.black,
@@ -150,7 +177,6 @@ class SignUpScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  
                 ],
               ),
             ),

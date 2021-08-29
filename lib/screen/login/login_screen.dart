@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:xlo_mobx/components/button/button_form.dart';
 import 'package:xlo_mobx/screen/sign_up/sign_up_screen.dart';
 import 'package:xlo_mobx/store/login_store.dart';
 
@@ -112,6 +111,17 @@ class LoginScreen extends StatelessWidget {
                             : Text('Entrar'),
                       ),
                     );
+                  }),
+                  Observer(builder: (_) {
+                    return loginStore.error != null
+                        ? Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              loginStore.error,
+                              style: TextStyle(fontSize: 16, color: Colors.red),
+                            ),
+                          )
+                        : Container();
                   }),
                   Divider(
                     color: Colors.black,
